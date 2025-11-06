@@ -1,0 +1,5 @@
+{
+  "name": "Clash of Clans Ore Calculator",
+  "description": "A tool to calculate the ore and time required for hero equipment upgrades in Clash of Clans. Includes a feature to import player data to plan upgrades accordingly.",
+  "requestFramePermissions": []
+}
