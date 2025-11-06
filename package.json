@@ -4,8 +4,11 @@
   "private": true,
   "description": "A tool to calculate the ore and time required for hero equipment upgrades in Clash of Clans.",
   "scripts": {
-    "android:setup": "npm install && npx cap add android",
-    "android:sync": "npx cap sync",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "android:setup": "npm install && npm run build && npx cap add android",
+    "android:sync": "npm run build && npx cap sync",
     "android:open": "npx cap open android"
   },
   "dependencies": {
@@ -15,6 +18,11 @@
   "devDependencies": {
     "@capacitor/android": "^6.1.0",
     "@capacitor/cli": "^6.1.0",
-    "@capacitor/core": "^6.1.0"
+    "@capacitor/core": "^6.1.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.1"
   }
 }

@@ -1,6 +1,5 @@
 {
   "appId": "dev.sundell.ores.calculator",
   "appName": "Clash of Clans Ore Calculator",
-  "webDir": ".",
-  "bundledWebRuntime": false
+  "webDir": "dist"
 }
