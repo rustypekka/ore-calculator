@@ -42,8 +42,15 @@ const UpgradePlanner: React.FC<UpgradePlannerProps> = ({
                     if (heroPlans.length === 0) return null;
                     return (
                         <div key={hero} className="mb-12 bg-black bg-opacity-20 p-4 rounded-xl">
-                            <h2 className="text-3xl font-bold text-center text-gray-300 mb-6 pb-2" style={{fontFamily: "'Supercell-Magic', sans-serif"}}>{hero}</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <h2 
+                                className="text-2xl sm:text-3xl font-bold text-center text-white mb-6" 
+                                style={{
+                                    textShadow: '3px 3px 0px rgba(0,0,0,0.7), 0 0 15px rgba(255,255,255,0.5)'
+                                }}
+                            >
+                                {hero}
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                                 {heroPlans.map(plan => (
                                     <EquipmentCard
                                         key={plan.id}

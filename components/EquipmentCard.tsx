@@ -29,10 +29,12 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ plan, onUpdate }) => {
     };
 
     return (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg flex items-center justify-between">
-            <div className="flex items-center space-x-3 flex-shrink-0 mr-2">
-                <img src={plan.equipment.icon} alt={plan.equipment.name} className="w-14 h-14"/>
-                <h3 className="text-white font-bold text-base whitespace-nowrap">{plan.equipment.name}</h3>
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 shadow-lg flex items-center justify-between">
+            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 mr-2">
+                <img src={plan.equipment.icon} alt={plan.equipment.name} className="w-12 h-12 sm:w-14 sm:h-14"/>
+                <h3 className="text-white font-bold text-sm sm:text-base">
+                    {plan.equipment.name}
+                </h3>
             </div>
 
             <div className="flex items-center space-x-1">
@@ -43,10 +45,10 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ plan, onUpdate }) => {
                     onFocus={(e) => e.target.select()}
                     min="0"
                     max={plan.equipment.maxLevel}
-                    className="bg-white text-gray-900 font-bold rounded-lg p-1 w-12 text-center shadow-inner"
+                    className="bg-white text-black font-bold rounded-md p-1 w-12 text-center shadow-inner"
                     aria-label={`${plan.equipment.name} current level`}
                 />
-                <span className="text-gray-400 font-bold text-lg">/</span>
+                <span className="text-slate-500 font-bold text-lg">/</span>
                 <input
                     type="number"
                     value={plan.targetLevel.toString()}
@@ -54,7 +56,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ plan, onUpdate }) => {
                     onFocus={(e) => e.target.select()}
                     min={plan.currentLevel}
                     max={plan.equipment.maxLevel}
-                    className="bg-gray-300 text-gray-800 font-bold rounded-lg p-1 w-12 text-center shadow-inner"
+                    className="bg-slate-900 border border-slate-700 text-white font-bold rounded-md p-1 w-12 text-center shadow-inner"
                     aria-label={`${plan.equipment.name} target level`}
                 />
             </div>

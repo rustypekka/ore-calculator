@@ -178,23 +178,23 @@ const App: React.FC = () => {
         <div className="min-h-screen bg-gray-900 text-gray-200 p-4 sm:p-6 md:p-8">
             <div className="max-w-7xl mx-auto">
                 <header className="text-center mb-8">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-yellow-400 tracking-wider" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-400 tracking-wider" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
                         Clash of Clans Ore Calculator
                     </h1>
-                    <p className="text-lg text-gray-400 mt-2">Plan your Hero Equipment upgrades with ease.</p>
+                    <p className="text-base sm:text-lg text-gray-400 mt-2">Plan your Hero Equipment upgrades with ease.</p>
                 </header>
 
                 <div className="flex justify-center border-b-2 border-gray-700 mb-8">
                     <button
                         onClick={() => setActiveTab('planner')}
-                        className={`py-3 px-6 text-lg font-bold transition-colors duration-300 ${activeTab === 'planner' ? 'text-yellow-400 border-b-4 border-yellow-400' : 'text-gray-500 hover:text-yellow-300'}`}
+                        className={`py-3 px-4 text-base sm:px-6 sm:text-lg font-bold transition-colors duration-300 ${activeTab === 'planner' ? 'text-yellow-400 border-b-4 border-yellow-400' : 'text-gray-500 hover:text-yellow-300'}`}
                         aria-pressed={activeTab === 'planner'}
                     >
                         Upgrade Planner
                     </button>
                     <button
                         onClick={() => setActiveTab('income')}
-                        className={`py-3 px-6 text-lg font-bold transition-colors duration-300 ${activeTab === 'income' ? 'text-yellow-400 border-b-4 border-yellow-400' : 'text-gray-500 hover:text-yellow-300'}`}
+                        className={`py-3 px-4 text-base sm:px-6 sm:text-lg font-bold transition-colors duration-300 ${activeTab === 'income' ? 'text-yellow-400 border-b-4 border-yellow-400' : 'text-gray-500 hover:text-yellow-300'}`}
                         aria-pressed={activeTab === 'income'}
                     >
                         Income Settings

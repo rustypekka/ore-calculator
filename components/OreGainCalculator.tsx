@@ -30,10 +30,29 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
     const traderGemsGlowyTicks = [0,1,2];
     const traderGemsStarryTicks = [0,1];
 
+    const BreakdownRow = ({ title, ores }: { title: string, ores: OreCosts }) => (
+        <div className="bg-gray-700 p-3 rounded-lg">
+            <h4 className="font-bold text-gray-300 mb-2 text-center sm:text-left">{title}</h4>
+            <div className="flex justify-around text-center">
+                <div className="flex flex-col items-center">
+                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6 mb-1" />
+                    <span className="font-semibold text-blue-300">{ores.shiny.toLocaleString()}</span>
+                </div>
+                 <div className="flex flex-col items-center">
+                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6 mb-1" />
+                    <span className="font-semibold text-purple-400">{ores.glowy.toLocaleString()}</span>
+                </div>
+                 <div className="flex flex-col items-center">
+                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6 mb-1" />
+                    <span className="font-semibold text-yellow-500">{ores.starry.toLocaleString()}</span>
+                </div>
+            </div>
+        </div>
+    );
 
     return (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 shadow-lg max-w-4xl mx-auto mb-8">
-            <h2 className="text-2xl font-bold text-center mb-2 text-yellow-400">Ore Gain Calculator</h2>
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 sm:p-6 shadow-lg max-w-4xl mx-auto mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-center mb-2 text-yellow-400">Ore Gain Calculator</h2>
             <p className="text-center text-sm text-gray-400 mb-6">Enter the details below to calculate how many ores you gain per month.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -196,51 +215,31 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
 
             <div className="mt-8 pt-6 border-t border-gray-700">
                 <h3 className="text-xl font-bold text-center mb-4 text-gray-300">Monthly Ore Gain Breakdown</h3>
-                <div className="grid grid-cols-4 gap-x-4 gap-y-2 text-center text-sm sm:text-base">
-                    {/* Header */}
-                    <div className="font-bold text-left text-gray-400">Source</div>
-                    <div className="font-bold text-gray-400 flex items-center justify-center gap-1">
-                        <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-5 h-5" /> Shiny
+                <div className="space-y-2 max-w-md mx-auto">
+                    <BreakdownRow title="Star Bonus" ores={monthlyIncomeBreakdown.dailyBonus} />
+                    <BreakdownRow title="Clan Wars" ores={monthlyIncomeBreakdown.warIncome} />
+                    <BreakdownRow title="Trader (Raids)" ores={monthlyIncomeBreakdown.traderIncome} />
+                    <BreakdownRow title="Trader (Gems)" ores={monthlyIncomeBreakdown.traderGemsIncome} />
+
+                    <div className="pt-3 mt-3 border-t-2 border-gray-600">
+                        <div className="bg-gray-900 p-3 rounded-lg">
+                             <h4 className="font-extrabold text-lg text-yellow-400 mb-2 text-center">Total Monthly Gain</h4>
+                            <div className="flex justify-around text-center text-lg">
+                                <div className="flex flex-col items-center">
+                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-7 h-7 mb-1" />
+                                    <span className="font-bold text-blue-300">{monthlyIncomeBreakdown.total.shiny.toLocaleString()}</span>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-7 h-7 mb-1" />
+                                    <span className="font-bold text-purple-400">{monthlyIncomeBreakdown.total.glowy.toLocaleString()}</span>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-7 h-7 mb-1" />
+                                    <span className="font-bold text-yellow-500">{monthlyIncomeBreakdown.total.starry.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="font-bold text-gray-400 flex items-center justify-center gap-1">
-                        <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-5 h-5" /> Glowy
-                    </div>
-                    <div className="font-bold text-gray-400 flex items-center justify-center gap-1">
-                        <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-5 h-5" /> Starry
-                    </div>
-
-                    {/* Star Bonus Row */}
-                    <div className="text-left py-2">Star Bonus</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.dailyBonus.shiny.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.dailyBonus.glowy.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.dailyBonus.starry.toLocaleString()}</div>
-
-                    {/* War Row */}
-                    <div className="text-left py-2">Clan Wars</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.warIncome.shiny.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.warIncome.glowy.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.warIncome.starry.toLocaleString()}</div>
-
-                    {/* Trader (Raids) Row */}
-                    <div className="text-left py-2">Trader (Raids)</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderIncome.shiny.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderIncome.glowy.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderIncome.starry.toLocaleString()}</div>
-
-                    {/* Trader (Gems) Row */}
-                    <div className="text-left py-2">Trader (Gems)</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderGemsIncome.shiny.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderGemsIncome.glowy.toLocaleString()}</div>
-                    <div className="py-2">{monthlyIncomeBreakdown.traderGemsIncome.starry.toLocaleString()}</div>
-                    
-                    {/* Divider */}
-                    <div className="col-span-4 border-t border-gray-600 my-1"></div>
-
-                    {/* Total Row */}
-                    <div className="text-left font-bold text-lg">Total</div>
-                    <div className="font-bold text-lg text-blue-300">{monthlyIncomeBreakdown.total.shiny.toLocaleString()}</div>
-                    <div className="font-bold text-lg text-purple-400">{monthlyIncomeBreakdown.total.glowy.toLocaleString()}</div>
-                    <div className="font-bold text-lg text-yellow-500">{monthlyIncomeBreakdown.total.starry.toLocaleString()}</div>
                 </div>
             </div>
         </div>
