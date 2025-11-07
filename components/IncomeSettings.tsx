@@ -11,6 +11,7 @@ interface IncomeSettingsProps {
         warIncome: OreCosts;
         traderIncome: OreCosts;
         traderGemsIncome: OreCosts;
+        otherIncome: OreCosts;
     };
 }
 

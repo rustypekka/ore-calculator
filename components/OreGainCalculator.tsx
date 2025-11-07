@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { OreIncomeSettings, OreCosts } from '../types';
 import { LEAGUES, ORE_ICONS, TRADER_ORE_PURCHASE, TRADER_GEMS_ORE_PURCHASE } from '../constants';
 import CalculatorSlider from './CalculatorSlider';
@@ -12,6 +12,7 @@ interface OreGainCalculatorProps {
         warIncome: OreCosts;
         traderIncome: OreCosts;
         traderGemsIncome: OreCosts;
+        otherIncome: OreCosts;
     };
 }
 
@@ -49,6 +50,52 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
             </div>
         </div>
     );
+
+     const OreInput = ({ oreType, icon, value, colorClass }: { oreType: keyof OreIncomeSettings, icon: string, value: number, colorClass: string }) => {
+        const [localValue, setLocalValue] = useState(value.toString());
+
+        useEffect(() => {
+            if (parseInt(localValue, 10) !== value) {
+                    setLocalValue(value.toString());
+            }
+        }, [value]);
+
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
+            setLocalValue(sanitizedValue);
+        };
+
+        const handleBlur = () => {
+            const numValue = parseInt(localValue, 10);
+            if (!isNaN(numValue)) {
+                handleSettingChange(oreType, Math.max(0, numValue));
+            } else {
+                handleSettingChange(oreType, 0);
+            }
+        };
+
+        return (
+            <div className="relative flex-shrink-0">
+                <img 
+                    src={icon} 
+                    alt=""
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none" 
+                    aria-hidden="true"
+                />
+                <input 
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={localValue}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={(e) => e.target.select()}
+                    className={`bg-gray-700 border border-gray-600 rounded-md w-32 py-2 pl-10 pr-2 text-base font-bold text-right shadow-inner focus:outline-none focus:ring-2 focus:ring-yellow-500 ${colorClass}`}
+                    aria-label={`Monthly ${oreType} ore`}
+                />
+            </div>
+        );
+    };
 
     return (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 sm:p-6 shadow-lg max-w-4xl mx-auto mb-8">
@@ -211,6 +258,17 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                         </label>
                     </div>
                 </div>
+
+                <div className="md:col-span-2 pt-4 mt-4 border-t border-gray-700">
+                    <h3 className="block text-sm font-medium text-gray-300 text-center mb-4">
+                        Other Monthly Income (e.g. Events, Piggy Bank)
+                    </h3>
+                    <div className="flex flex-row flex-wrap items-center justify-center gap-4">
+                        <OreInput oreType="otherShiny" icon={ORE_ICONS.shiny} value={settings.otherShiny} colorClass="text-blue-300" />
+                        <OreInput oreType="otherGlowy" icon={ORE_ICONS.glowy} value={settings.otherGlowy} colorClass="text-purple-400" />
+                        <OreInput oreType="otherStarry" icon={ORE_ICONS.starry} value={settings.otherStarry} colorClass="text-yellow-500" />
+                    </div>
+                </div>
             </div>
 
             <div className="mt-8 pt-6 border-t border-gray-700">
@@ -220,6 +278,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                     <BreakdownRow title="Clan Wars" ores={monthlyIncomeBreakdown.warIncome} />
                     <BreakdownRow title="Trader (Raids)" ores={monthlyIncomeBreakdown.traderIncome} />
                     <BreakdownRow title="Trader (Gems)" ores={monthlyIncomeBreakdown.traderGemsIncome} />
+                    <BreakdownRow title="Other Sources" ores={monthlyIncomeBreakdown.otherIncome} />
 
                     <div className="pt-3 mt-3 border-t-2 border-gray-600">
                         <div className="bg-gray-900 p-3 rounded-lg">

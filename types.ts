@@ -45,4 +45,7 @@ export interface OreIncomeSettings {
     traderGemsGlowyPurchases: number;
     traderGemsStarryPurchases: number;
     traderGemsFreeGlowy: boolean;
+    otherShiny: number;
+    otherGlowy: number;
+    otherStarry: number;
 }

@@ -32,10 +32,14 @@ const App: React.FC = () => {
         traderGemsGlowyPurchases: 0,
         traderGemsStarryPurchases: 0,
         traderGemsFreeGlowy: true,
+        otherShiny: 0,
+        otherGlowy: 0,
+        otherStarry: 0,
     });
 
     const dailyOreIncomeBreakdown = useMemo(() => {
         const settings = oreIncomeSettings;
+        const avgDaysInMonth = 30;
         const dailyBonus = LEAGUES[settings.leagueIndex].dailyStarBonus;
 
         const thLoot = WAR_TOWN_HALL_LOOT[settings.warTownHall as keyof typeof WAR_TOWN_HALL_LOOT];
@@ -59,14 +63,20 @@ const App: React.FC = () => {
             glowy: ((settings.traderGemsGlowyPurchases * TRADER_GEMS_ORE_PURCHASE.glowy) + (settings.traderGemsFreeGlowy ? TRADER_GEMS_ORE_PURCHASE.freeGlowy : 0)) / 7,
             starry: (settings.traderGemsStarryPurchases * TRADER_GEMS_ORE_PURCHASE.starry) / 7,
         };
+        
+        const otherIncome = {
+            shiny: settings.otherShiny / avgDaysInMonth,
+            glowy: settings.otherGlowy / avgDaysInMonth,
+            starry: settings.otherStarry / avgDaysInMonth,
+        };
 
         const total = {
-            shiny: dailyBonus.shiny + warIncome.shiny + traderIncome.shiny + traderGemsIncome.shiny,
-            glowy: dailyBonus.glowy + warIncome.glowy + traderIncome.glowy + traderGemsIncome.glowy,
-            starry: dailyBonus.starry + warIncome.starry + traderIncome.starry + traderGemsIncome.starry,
+            shiny: dailyBonus.shiny + warIncome.shiny + traderIncome.shiny + traderGemsIncome.shiny + otherIncome.shiny,
+            glowy: dailyBonus.glowy + warIncome.glowy + traderIncome.glowy + traderGemsIncome.glowy + otherIncome.glowy,
+            starry: dailyBonus.starry + warIncome.starry + traderIncome.starry + traderGemsIncome.starry + otherIncome.starry,
         };
         
-        return { total, dailyBonus, warIncome, traderIncome, traderGemsIncome };
+        return { total, dailyBonus, warIncome, traderIncome, traderGemsIncome, otherIncome };
 
     }, [oreIncomeSettings]);
 
@@ -84,7 +94,8 @@ const App: React.FC = () => {
             dailyBonus: multiplyBy30(dailyOreIncomeBreakdown.dailyBonus),
             warIncome: multiplyBy30(dailyOreIncomeBreakdown.warIncome),
             traderIncome: multiplyBy30(dailyOreIncomeBreakdown.traderIncome),
-            traderGemsIncome: multiplyBy30(dailyOreIncomeBreakdown.traderGemsIncome)
+            traderGemsIncome: multiplyBy30(dailyOreIncomeBreakdown.traderGemsIncome),
+            otherIncome: multiplyBy30(dailyOreIncomeBreakdown.otherIncome)
         };
     }, [dailyOreIncomeBreakdown]);
 
@@ -172,14 +183,14 @@ const App: React.FC = () => {
 
     }, [netCosts, dailyOreIncome]);
     
-    const heroes = ['Barbarian King', 'Archer Queen', 'Grand Warden', 'Royal Champion', 'Minion Prince'];
+    const heroes = ['Barbarian King', 'Archer Queen', 'Minion Prince', 'Grand Warden', 'Royal Champion'];
 
     return (
         <div className="min-h-screen bg-gray-900 text-gray-200 p-4 sm:p-6 md:p-8">
             <div className="max-w-7xl mx-auto">
                 <header className="text-center mb-8">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-400 tracking-wider" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
-                        Clash of Clans Ore Calculator
+                        COC Ore Calculator
                     </h1>
                     <p className="text-base sm:text-lg text-gray-400 mt-2">Plan your Hero Equipment upgrades with ease.</p>
                 </header>
@@ -227,7 +238,6 @@ const App: React.FC = () => {
                 
                  <footer className="text-center mt-12 text-gray-500 text-sm">
                     <p>This is a fan-made tool and is not affiliated with Supercell.</p>
-                    <p>Player data is fetched from the official Clash of Clans API.</p>
                 </footer>
             </div>
         </div>

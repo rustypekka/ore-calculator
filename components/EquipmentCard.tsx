@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { EquipmentPlan } from '../types';
 
 interface EquipmentCardProps {
@@ -8,21 +8,40 @@ interface EquipmentCardProps {
 
 const EquipmentCard: React.FC<EquipmentCardProps> = ({ plan, onUpdate }) => {
     
+    // Local state for the input fields
+    const [currentLevelInput, setCurrentLevelInput] = useState(plan.currentLevel.toString());
+    const [targetLevelInput, setTargetLevelInput] = useState(plan.targetLevel.toString());
+
+    // Sync local state if props change from parent
+    useEffect(() => {
+        setCurrentLevelInput(plan.currentLevel.toString());
+        setTargetLevelInput(plan.targetLevel.toString());
+    }, [plan.currentLevel, plan.targetLevel]);
+
+
     const handleLevelChange = (type: 'current' | 'target', value: string) => {
+        // Allow only digits
+        const sanitizedValue = value.replace(/[^0-9]/g, '');
+        if (type === 'current') {
+            setCurrentLevelInput(sanitizedValue);
+        } else {
+            setTargetLevelInput(sanitizedValue);
+        }
+    };
+
+    const handleBlur = (type: 'current' | 'target') => {
+        const value = type === 'current' ? currentLevelInput : targetLevelInput;
         const parsedValue = parseInt(value, 10);
-        // Default to 0 if input is cleared or invalid
         const level = isNaN(parsedValue) ? 0 : parsedValue;
 
         if (type === 'current') {
             const clampedLevel = Math.max(0, Math.min(plan.equipment.maxLevel, level));
             if (clampedLevel > plan.targetLevel) {
-                // If current level exceeds target, sync target with it
                 onUpdate(plan.id, { currentLevel: clampedLevel, targetLevel: clampedLevel });
             } else {
                 onUpdate(plan.id, { currentLevel: clampedLevel });
             }
         } else { // type === 'target'
-            // Ensure target is not less than current, and not more than max
             const clampedLevel = Math.max(plan.currentLevel, Math.min(plan.equipment.maxLevel, level));
             onUpdate(plan.id, { targetLevel: clampedLevel });
         }
@@ -39,23 +58,25 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ plan, onUpdate }) => {
 
             <div className="flex items-center space-x-1">
                 <input
-                    type="number"
-                    value={plan.currentLevel.toString()}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={currentLevelInput}
                     onChange={(e) => handleLevelChange('current', e.target.value)}
+                    onBlur={() => handleBlur('current')}
                     onFocus={(e) => e.target.select()}
-                    min="0"
-                    max={plan.equipment.maxLevel}
                     className="bg-white text-black font-bold rounded-md p-1 w-12 text-center shadow-inner"
                     aria-label={`${plan.equipment.name} current level`}
                 />
                 <span className="text-slate-500 font-bold text-lg">/</span>
                 <input
-                    type="number"
-                    value={plan.targetLevel.toString()}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={targetLevelInput}
                     onChange={(e) => handleLevelChange('target', e.target.value)}
+                    onBlur={() => handleBlur('target')}
                     onFocus={(e) => e.target.select()}
-                    min={plan.currentLevel}
-                    max={plan.equipment.maxLevel}
                     className="bg-slate-900 border border-slate-700 text-white font-bold rounded-md p-1 w-12 text-center shadow-inner"
                     aria-label={`${plan.equipment.name} target level`}
                 />
