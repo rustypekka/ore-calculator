@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { EQUIPMENT_DATA, LEAGUES, WAR_TOWN_HALL_LOOT, TRADER_ORE_PURCHASE, TRADER_GEMS_ORE_PURCHASE } from './constants';
 import { EquipmentPlan, OreCosts, OreIncomeSettings, BookmarkedPlayer } from './types';
 import { fetchPlayerData } from './services/clashOfClansService';
+import { initializeAdMob, showRewardedAd } from './services/admobService';
 import UpgradePlanner from './components/UpgradePlanner';
 import IncomeSettings from './components/IncomeSettings';
 
@@ -39,6 +40,21 @@ const App: React.FC = () => {
         otherGlowy: 0,
         otherStarry: 0,
     });
+
+    useEffect(() => {
+        // Initialize AdMob when the app starts
+        initializeAdMob();
+
+        try {
+            const savedBookmarks = localStorage.getItem('bookmarkedPlayerTags');
+            if (savedBookmarks) {
+                setBookmarkedPlayers(JSON.parse(savedBookmarks));
+            }
+        } catch (e) {
+            console.error("Failed to parse bookmarks from localStorage", e);
+            localStorage.removeItem('bookmarkedPlayerTags');
+        }
+    }, []); // Runs only on mount
 
     const dailyOreIncomeBreakdown = useMemo(() => {
         const settings = oreIncomeSettings;
@@ -117,28 +133,42 @@ const App: React.FC = () => {
     const handleImportData = async (playerTag: string) => {
         setIsLoading(true);
         setError(null);
-        setPlayerTagInput(playerTag); // Update input field to show which player is loaded
-        try {
-            const importedData = await fetchPlayerData(playerTag);
-            
-            const newPlans: EquipmentPlan[] = EQUIPMENT_DATA.map((equipment, index) => {
-                const importedEquipment = importedData.equipment.find(e => e.name === equipment.name);
-                const currentPlan = plans.find(p => p.equipment.name === equipment.name);
+        setPlayerTagInput(playerTag);
+        
+        // Show a rewarded ad. The promise resolves with an object indicating success.
+        const adResult = await showRewardedAd();
 
-                return {
-                    id: index + 1,
-                    equipment,
-                    currentLevel: importedEquipment ? importedEquipment.level : 0,
-                    // Preserve user's target level if it exists, otherwise default to max
-                    targetLevel: currentPlan ? currentPlan.targetLevel : equipment.maxLevel
-                };
-            });
-            setPlans(newPlans);
-            setCurrentPlayer({ tag: playerTag, name: importedData.name });
-        } catch (e) {
-            setError(e instanceof Error ? e.message : 'An unknown error occurred.');
-            setCurrentPlayer(null);
-        } finally {
+        if (adResult.rewarded) {
+             // User watched the ad, now fetch the data
+            try {
+                const importedData = await fetchPlayerData(playerTag);
+                
+                const newPlans: EquipmentPlan[] = EQUIPMENT_DATA.map((equipment, index) => {
+                    const importedEquipment = importedData.equipment.find(e => e.name === equipment.name);
+                    const currentPlan = plans.find(p => p.equipment.name === equipment.name);
+
+                    return {
+                        id: index + 1,
+                        equipment,
+                        currentLevel: importedEquipment ? importedEquipment.level : 0,
+                        // Preserve user's target level if it exists, otherwise default to max
+                        targetLevel: currentPlan ? currentPlan.targetLevel : equipment.maxLevel
+                    };
+                });
+                setPlans(newPlans);
+                setCurrentPlayer({ tag: playerTag, name: importedData.name });
+            } catch (e) {
+                setError(e instanceof Error ? e.message : 'An unknown error occurred.');
+                setCurrentPlayer(null);
+            } finally {
+                setIsLoading(false);
+            }
+        } else {
+             // User did not complete the ad or it failed to load
+            const errorMessage = adResult.error === 'ad_failed_to_load' 
+                ? 'Ad could not be loaded. Please check your connection and try again.'
+                : 'Please watch the full ad to import player data.';
+            setError(errorMessage);
             setIsLoading(false);
         }
     };
@@ -162,19 +192,6 @@ const App: React.FC = () => {
         setBookmarkedPlayers(newBookmarks);
         localStorage.setItem('bookmarkedPlayerTags', JSON.stringify(newBookmarks));
     };
-
-    useEffect(() => {
-        try {
-            const savedBookmarks = localStorage.getItem('bookmarkedPlayerTags');
-            if (savedBookmarks) {
-                setBookmarkedPlayers(JSON.parse(savedBookmarks));
-            }
-        } catch (e) {
-            console.error("Failed to parse bookmarks from localStorage", e);
-            localStorage.removeItem('bookmarkedPlayerTags');
-        }
-    }, []); // Runs only on mount
-
 
     const totalCosts = useMemo<OreCosts>(() => {
         return plans.reduce(
