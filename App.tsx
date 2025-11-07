@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { EQUIPMENT_DATA, LEAGUES, WAR_TOWN_HALL_LOOT, TRADER_ORE_PURCHASE, TRADER_GEMS_ORE_PURCHASE } from './constants';
 import { EquipmentPlan, OreCosts, OreIncomeSettings, BookmarkedPlayer } from './types';
 import { fetchPlayerData } from './services/clashOfClansService';
-import { initializeAdMob, showRewardedAd } from './services/admobService';
+import { initializeAdMob, showRewardedAd, showBannerAd } from './services/admobService';
 import UpgradePlanner from './components/UpgradePlanner';
 import IncomeSettings from './components/IncomeSettings';
 
@@ -23,6 +23,7 @@ const App: React.FC = () => {
     const [playerTagInput, setPlayerTagInput] = useState('');
     const [bookmarkedPlayers, setBookmarkedPlayers] = useState<BookmarkedPlayer[]>([]);
     const [currentPlayer, setCurrentPlayer] = useState<{ tag: string; name: string } | null>(null);
+    const [isBannerVisible, setIsBannerVisible] = useState(false);
     
     const [oreIncomeSettings, setOreIncomeSettings] = useState<OreIncomeSettings>({
         leagueIndex: 33, // Default to Legend League
@@ -42,8 +43,12 @@ const App: React.FC = () => {
     });
 
     useEffect(() => {
-        // Initialize AdMob when the app starts
-        initializeAdMob();
+        const setupAds = async () => {
+            await initializeAdMob();
+            const bannerWasShown = await showBannerAd();
+            setIsBannerVisible(bannerWasShown);
+        };
+        setupAds();
 
         try {
             const savedBookmarks = localStorage.getItem('bookmarkedPlayerTags');
@@ -242,7 +247,7 @@ const App: React.FC = () => {
     const heroes = ['Barbarian King', 'Archer Queen', 'Minion Prince', 'Grand Warden', 'Royal Champion'];
 
     return (
-        <div className="min-h-screen bg-gray-900 text-gray-200 p-4 sm:p-6 md:p-8">
+        <div className={`min-h-screen bg-gray-900 text-gray-200 p-4 sm:p-6 md:p-8 ${isBannerVisible ? 'pt-16' : ''}`}>
             <div className="max-w-7xl mx-auto">
                 <header className="text-center mb-8">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-400 tracking-wider" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>

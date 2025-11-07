@@ -1,13 +1,17 @@
 // @ts-ignore
-import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdMobRewardItem } from '@capacitor-community/admob';
+import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdMobRewardItem, BannerAdOptions, BannerAdPosition } from '@capacitor-community/admob';
 
-// IMPORTANT: This is your production Rewarded Ad Unit ID.
+// IMPORTANT: Production Ad Unit IDs.
 const REWARDED_AD_UNIT_ID_ANDROID = 'ca-app-pub-1783572368390458/8742205079';
+const BANNER_AD_UNIT_ID_ANDROID = 'ca-app-pub-1783572368390458/4164117071';
+
+const isNativePlatform = (): boolean => {
+    return typeof window !== 'undefined' && window.navigator && typeof (window.navigator as any).getCapacitor === 'function';
+}
 
 export const initializeAdMob = async (): Promise<void> => {
   try {
-    // AdMob is a native-only plugin, so it will only run on a device/emulator
-    if (typeof window !== 'undefined' && window.navigator && typeof (window.navigator as any).getCapacitor === 'function') {
+    if (isNativePlatform()) {
         await AdMob.initialize({
             testingDevices: [], // Add your test device IDs here for development
         });
@@ -17,6 +21,29 @@ export const initializeAdMob = async (): Promise<void> => {
   }
 };
 
+export const showBannerAd = async (): Promise<boolean> => {
+    if (!isNativePlatform()) {
+        console.log("Not a native app. Skipping banner ad.");
+        return false;
+    }
+
+    const options: BannerAdOptions = {
+        adId: BANNER_AD_UNIT_ID_ANDROID,
+        // FIX: Use BannerAdPosition enum instead of string literal for type safety.
+        position: BannerAdPosition.TOP_CENTER,
+        margin: 0,
+        isTesting: false, // Set to false for production
+    };
+    
+    try {
+        await AdMob.showBanner(options);
+        return true;
+    } catch (error) {
+        console.error("Error showing banner ad:", error);
+        return false;
+    }
+};
+
 /**
  * Shows a rewarded video ad.
  * @returns A promise that resolves with an object indicating if the user was rewarded
@@ -24,9 +51,7 @@ export const initializeAdMob = async (): Promise<void> => {
  */
 export const showRewardedAd = (): Promise<{ rewarded: boolean; error?: string }> => {
   return new Promise((resolve) => {
-    // If running in a browser without Capacitor, resolve as if the ad was watched successfully.
-    // This allows the core app functionality to work during web development.
-    if (typeof window === 'undefined' || !window.navigator || typeof (window.navigator as any).getCapacitor !== 'function') {
+    if (!isNativePlatform()) {
         console.log("Not a native app. Skipping ad.");
         return resolve({ rewarded: true });
     }
