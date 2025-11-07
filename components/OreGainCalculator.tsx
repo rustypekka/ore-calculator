@@ -35,15 +35,15 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
             <h4 className="font-bold text-gray-300 mb-2 text-center sm:text-left">{title}</h4>
             <div className="flex justify-around text-center">
                 <div className="flex flex-col items-center">
-                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6 mb-1" />
+                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-7 h-7 mb-1" />
                     <span className="font-semibold text-blue-300">{ores.shiny.toLocaleString()}</span>
                 </div>
                  <div className="flex flex-col items-center">
-                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6 mb-1" />
+                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-7 h-7 mb-1" />
                     <span className="font-semibold text-purple-400">{ores.glowy.toLocaleString()}</span>
                 </div>
                  <div className="flex flex-col items-center">
-                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6 mb-1" />
+                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-7 h-7 mb-1" />
                     <span className="font-semibold text-yellow-500">{ores.starry.toLocaleString()}</span>
                 </div>
             </div>
@@ -115,7 +115,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderShinyPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6" />
                                     <span>{(settings.traderShinyPurchases * TRADER_ORE_PURCHASE.shiny).toLocaleString()}</span>
                                 </div>
                             }
@@ -129,7 +129,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderGlowyPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6" />
                                     <span>{(settings.traderGlowyPurchases * TRADER_ORE_PURCHASE.glowy).toLocaleString()}</span>
                                 </div>
                             }
@@ -143,7 +143,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderStarryPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6" />
                                     <span>{(settings.traderStarryPurchases * TRADER_ORE_PURCHASE.starry).toLocaleString()}</span>
                                 </div>
                             }
@@ -163,7 +163,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderGemsShinyPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6" />
                                     <span>{(settings.traderGemsShinyPurchases * TRADER_GEMS_ORE_PURCHASE.shiny).toLocaleString()}</span>
                                 </div>
                             }
@@ -177,7 +177,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderGemsGlowyPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6" />
                                     <span>{(settings.traderGemsGlowyPurchases * TRADER_GEMS_ORE_PURCHASE.glowy).toLocaleString()}</span>
                                 </div>
                             }
@@ -191,7 +191,7 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                             onChange={(val) => handleSettingChange('traderGemsStarryPurchases', val)}
                             displayValue={
                                 <div className="flex items-center justify-center gap-2 mt-2 text-lg font-semibold">
-                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-5 h-5" />
+                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6" />
                                     <span>{(settings.traderGemsStarryPurchases * TRADER_GEMS_ORE_PURCHASE.starry).toLocaleString()}</span>
                                 </div>
                             }
@@ -226,15 +226,15 @@ const OreGainCalculator: React.FC<OreGainCalculatorProps> = ({ settings, onSetti
                              <h4 className="font-extrabold text-lg text-yellow-400 mb-2 text-center">Total Monthly Gain</h4>
                             <div className="flex justify-around text-center text-lg">
                                 <div className="flex flex-col items-center">
-                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-7 h-7 mb-1" />
+                                    <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-8 h-8 mb-1" />
                                     <span className="font-bold text-blue-300">{monthlyIncomeBreakdown.total.shiny.toLocaleString()}</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-7 h-7 mb-1" />
+                                    <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-8 h-8 mb-1" />
                                     <span className="font-bold text-purple-400">{monthlyIncomeBreakdown.total.glowy.toLocaleString()}</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-7 h-7 mb-1" />
+                                    <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-8 h-8 mb-1" />
                                     <span className="font-bold text-yellow-500">{monthlyIncomeBreakdown.total.starry.toLocaleString()}</span>
                                 </div>
                             </div>

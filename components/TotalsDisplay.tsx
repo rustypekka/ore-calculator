@@ -24,21 +24,21 @@ const TotalsDisplay: React.FC<TotalsDisplayProps> = ({ costs, time, monthlyIncom
                     <div className="space-y-3">
                         <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-blue-300">
-                                <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-7 h-7 mr-2" />
                                 Shiny Ore
                              </span>
                             <span className="text-xl sm:text-2xl font-bold">{costs.shiny.toLocaleString()}</span>
                         </div>
                          <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-purple-400">
-                                <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-7 h-7 mr-2" />
                                 Glowy Ore
                             </span>
                             <span className="text-xl sm:text-2xl font-bold">{costs.glowy.toLocaleString()}</span>
                         </div>
                          <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-yellow-500">
-                                <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-7 h-7 mr-2" />
                                 Starry Ore
                             </span>
                             <span className="text-xl sm:text-2xl font-bold">{costs.starry.toLocaleString()}</span>
@@ -51,21 +51,21 @@ const TotalsDisplay: React.FC<TotalsDisplayProps> = ({ costs, time, monthlyIncom
                      <div className="space-y-3">
                         <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-blue-300">
-                                <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.shiny} alt="Shiny Ore" className="w-7 h-7 mr-2" />
                                 Shiny Ore
                              </span>
                             <span className="text-xl sm:text-2xl font-bold">{monthlyIncome.shiny.toLocaleString()}/mo</span>
                         </div>
                          <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-purple-400">
-                                <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.glowy} alt="Glowy Ore" className="w-7 h-7 mr-2" />
                                 Glowy Ore
                             </span>
                             <span className="text-xl sm:text-2xl font-bold">{monthlyIncome.glowy.toLocaleString()}/mo</span>
                         </div>
                          <div className="bg-gray-700 p-3 rounded-lg flex items-center justify-between">
                              <span className="flex items-center text-base sm:text-lg font-semibold text-yellow-500">
-                                <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-6 h-6 mr-2" />
+                                <img src={ORE_ICONS.starry} alt="Starry Ore" className="w-7 h-7 mr-2" />
                                 Starry Ore
                             </span>
                             <span className="text-xl sm:text-2xl font-bold">{monthlyIncome.starry.toLocaleString()}/mo</span>

@@ -20,7 +20,7 @@ const PlayerOresDisplay: React.FC<PlayerOresDisplayProps> = ({ ores, onOresChang
 
     const OreInput = ({ oreType, icon, value, colorClass }: { oreType: keyof OreCosts, icon: string, value: number, colorClass: string }) => (
         <div className="flex items-center space-x-2">
-            <img src={icon} alt={`${oreType} Ore`} className="w-7 h-7 sm:w-8 sm:h-8" />
+            <img src={icon} alt={`${oreType} Ore`} className="w-8 h-8" />
             <input 
                 type="number"
                 value={value.toString()}
