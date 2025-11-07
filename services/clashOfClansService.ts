@@ -1,4 +1,4 @@
-import { PlayerEquipmentData, ImportedPlayerData } from '../types';
+import { ImportedPlayerData } from '../types';
 
 // This endpoint must point to your server-side proxy script (e.g., player.php from your example).
 // The script will securely use your API key to fetch data from the CoC API.
