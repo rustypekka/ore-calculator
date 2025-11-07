@@ -1,12 +1,12 @@
 import { Equipment, OreCosts, UpgradeLevel } from './types';
 
 export const ORE_ICONS = {
-    shiny: '/images/ores/shiny.png',
-    glowy: '/images/ores/glowy.png',
-    starry: '/images/ores/starry.png'
+    shiny: 'images/ores/shiny.png',
+    glowy: 'images/ores/glowy.png',
+    starry: 'images/ores/starry.png'
 };
 
-const PLACEHOLDER_ICON = '/images/equipment/placeholder.png'; // A gear icon
+const PLACEHOLDER_ICON = 'images/equipment/placeholder.png'; // A gear icon
 
 const COMMON_EQUIPMENT_LEVELS_18: UpgradeLevel[] = [
     { level: 2, shiny: 120, glowy: 0, starry: 0 },
@@ -64,42 +64,42 @@ export const EQUIPMENT_DATA: Equipment[] = [
         name: 'Barbarian Puppet',
         hero: 'Barbarian King',
         maxLevel: 18,
-        icon: '/images/equipment/Barbarian_Puppet.png',
+        icon: 'images/equipment/Barbarian_Puppet.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Rage Vial',
         hero: 'Barbarian King',
         maxLevel: 18,
-        icon: '/images/equipment/Rage_Vial.png',
+        icon: 'images/equipment/Rage_Vial.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Earthquake Boots',
         hero: 'Barbarian King',
         maxLevel: 18,
-        icon: '/images/equipment/Earthquake_Boots.png',
+        icon: 'images/equipment/Earthquake_Boots.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Vampstache',
         hero: 'Barbarian King',
         maxLevel: 18,
-        icon: '/images/equipment/Vampstache.png',
+        icon: 'images/equipment/Vampstache.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Giant Gauntlet',
         hero: 'Barbarian King',
         maxLevel: 27,
-        icon: '/images/equipment/Giant_Gauntlet.png',
+        icon: 'images/equipment/Giant_Gauntlet.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
         name: 'Spiky Ball',
         hero: 'Barbarian King',
         maxLevel: 27,
-        icon: '/images/equipment/Spiky_Ball.png',
+        icon: 'images/equipment/Spiky_Ball.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
@@ -114,42 +114,42 @@ export const EQUIPMENT_DATA: Equipment[] = [
         name: 'Archer Puppet',
         hero: 'Archer Queen',
         maxLevel: 18,
-        icon: '/images/equipment/Archer_Puppet.png',
+        icon: 'images/equipment/Archer_Puppet.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Invisibility Vial',
         hero: 'Archer Queen',
         maxLevel: 18,
-        icon: '/images/equipment/Invisibility_Vial.png',
+        icon: 'images/equipment/Invisibility_Vial.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Giant Arrow',
         hero: 'Archer Queen',
         maxLevel: 18,
-        icon: '/images/equipment/Giant_Arrow.png',
+        icon: 'images/equipment/Giant_Arrow.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Healer Puppet',
         hero: 'Archer Queen',
         maxLevel: 18,
-        icon: '/images/equipment/Healer_Puppet.png',
+        icon: 'images/equipment/Healer_Puppet.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Frozen Arrow',
         hero: 'Archer Queen',
         maxLevel: 27,
-        icon: '/images/equipment/Frozen_Arrow.png',
+        icon: 'images/equipment/Frozen_Arrow.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
         name: 'Magic Mirror',
         hero: 'Archer Queen',
         maxLevel: 27,
-        icon: '/images/equipment/Magic_Mirror.png',
+        icon: 'images/equipment/Magic_Mirror.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
@@ -164,35 +164,35 @@ export const EQUIPMENT_DATA: Equipment[] = [
         name: 'Eternal Tome',
         hero: 'Grand Warden',
         maxLevel: 18,
-        icon: '/images/equipment/Eternal_Tome.png',
+        icon: 'images/equipment/Eternal_Tome.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Life Gem',
         hero: 'Grand Warden',
         maxLevel: 18,
-        icon: '/images/equipment/Life_Gem.png',
+        icon: 'images/equipment/Life_Gem.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Healing Tome',
         hero: 'Grand Warden',
         maxLevel: 18,
-        icon: '/images/equipment/Healing_Tome.png',
+        icon: 'images/equipment/Healing_Tome.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Rage Gem',
         hero: 'Grand Warden',
         maxLevel: 18,
-        icon: '/images/equipment/Rage_Gem.png',
+        icon: 'images/equipment/Rage_Gem.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
      {
         name: 'Fireball',
         hero: 'Grand Warden',
         maxLevel: 27,
-        icon: '/images/equipment/Fireball.png',
+        icon: 'images/equipment/Fireball.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
@@ -206,7 +206,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
         name: 'Heroic Torch',
         hero: 'Grand Warden',
         maxLevel: 27,
-        icon: '/images/equipment/Heroic_Torch.png',
+        icon: 'images/equipment/Heroic_Torch.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     // Royal Champion
@@ -214,35 +214,35 @@ export const EQUIPMENT_DATA: Equipment[] = [
         name: 'Seeking Shield',
         hero: 'Royal Champion',
         maxLevel: 18,
-        icon: '/images/equipment/Seeking_Shield.png',
+        icon: 'images/equipment/Seeking_Shield.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Royal Gem',
         hero: 'Royal Champion',
         maxLevel: 18,
-        icon: '/images/equipment/Royal_Gem.png',
+        icon: 'images/equipment/Royal_Gem.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Haste Vial',
         hero: 'Royal Champion',
         maxLevel: 18,
-        icon: '/images/equipment/Haste_Vial.png',
+        icon: 'images/equipment/Haste_Vial.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Hog Rider Puppet',
         hero: 'Royal Champion',
         maxLevel: 18,
-        icon: '/images/equipment/Hog_Rider_Puppet.png',
+        icon: 'images/equipment/Hog_Rider_Puppet.png',
         levels: COMMON_EQUIPMENT_LEVELS_18,
     },
     {
         name: 'Rocket Spear',
         hero: 'Royal Champion',
         maxLevel: 27,
-        icon: '/images/equipment/Rocket_Spear.png',
+        icon: 'images/equipment/Rocket_Spear.png',
         levels: EPIC_EQUIPMENT_LEVELS_27,
     },
     {
@@ -298,14 +298,14 @@ export const EQUIPMENT_DATA: Equipment[] = [
 ];
 
 const ICONS = {
-    BRONZE: '/images/leagues/bronze.png',
-    SILVER: '/images/leagues/silver.png',
-    GOLD: '/images/leagues/gold.png',
-    CRYSTAL: '/images/leagues/crystal.png',
-    MASTER: '/images/leagues/master.png',
-    CHAMPION: '/images/leagues/champion.png',
-    TITAN: '/images/leagues/titan.png',
-    LEGEND: '/images/leagues/legend.png',
+    BRONZE: 'images/leagues/bronze.png',
+    SILVER: 'images/leagues/silver.png',
+    GOLD: 'images/leagues/gold.png',
+    CRYSTAL: 'images/leagues/crystal.png',
+    MASTER: 'images/leagues/master.png',
+    CHAMPION: 'images/leagues/champion.png',
+    TITAN: 'images/leagues/titan.png',
+    LEGEND: 'images/leagues/legend.png',
 };
 
 export const LEAGUES = [
