@@ -52,7 +52,7 @@ const PlayerOresDisplay: React.FC<PlayerOresDisplayProps> = ({ ores, onOresChang
                     onChange={handleChange}
                     onBlur={handleBlur}
                     onFocus={(e) => e.target.select()}
-                    className={`bg-gray-700 border border-gray-600 rounded-md w-32 py-2 pl-10 pr-2 text-base font-bold text-right shadow-inner focus:outline-none focus:ring-2 focus:ring-yellow-500 ${colorClass}`}
+                    className={`bg-gray-700 border border-gray-600 rounded-md w-28 py-2 pl-10 pr-2 text-base font-bold text-right shadow-inner focus:outline-none focus:ring-2 focus:ring-yellow-500 ${colorClass}`}
                     aria-label={`Current ${oreType} ore`}
                 />
             </div>
@@ -60,9 +60,9 @@ const PlayerOresDisplay: React.FC<PlayerOresDisplayProps> = ({ ores, onOresChang
     };
 
     return (
-        <div className="mb-8 max-w-2xl mx-auto">
+        <div className="mb-8 mx-auto" style={{ maxWidth: '448px' }}>
             <h2 className="text-xl font-bold text-center mb-4 text-gray-300">Your Current Ores</h2>
-            <div className="bg-gray-800 border border-gray-700 shadow-lg rounded-lg p-3 flex flex-row flex-wrap items-center justify-center gap-2 sm:gap-4">
+            <div className="bg-gray-800 border border-gray-700 shadow-lg rounded-lg p-3 flex flex-row items-center justify-center gap-2 sm:gap-4">
                 <OreInput oreType="shiny" icon={ORE_ICONS.shiny} value={ores.shiny} colorClass="text-blue-300" />
                 <OreInput oreType="glowy" icon={ORE_ICONS.glowy} value={ores.glowy} colorClass="text-purple-400" />
                 <OreInput oreType="starry" icon={ORE_ICONS.starry} value={ores.starry} colorClass="text-yellow-500" />

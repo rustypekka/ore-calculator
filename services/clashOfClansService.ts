@@ -1,4 +1,4 @@
-import { PlayerEquipmentData } from '../types';
+import { PlayerEquipmentData, ImportedPlayerData } from '../types';
 
 // This endpoint must point to your server-side proxy script (e.g., player.php from your example).
 // The script will securely use your API key to fetch data from the CoC API.
@@ -12,7 +12,7 @@ const PROXY_ENDPOINT = 'https://clancapitalbases.com/api/player_ores.php';
  * @param playerTag The player's in-game tag (e.g., #2PP).
  * @returns A promise that resolves to an array of the player's equipment.
  */
-export const fetchPlayerData = async (playerTag: string): Promise<PlayerEquipmentData[]> => {
+export const fetchPlayerData = async (playerTag: string): Promise<ImportedPlayerData> => {
     if (!playerTag) {
         throw new Error('Player Tag is required.');
     }
@@ -42,6 +42,10 @@ export const fetchPlayerData = async (playerTag: string): Promise<PlayerEquipmen
             throw new Error(data.reason);
         }
 
+        if (!data.name) {
+            throw new Error("Could not find player name in the API response.");
+        }
+
         // The API response might have the equipment list at the top level,
         // or nested under a 'heroEquipment' or 'equipment' key.
         const rawEquipmentList = data.heroEquipment || data.equipment || (Array.isArray(data) ? data : []);
@@ -55,10 +59,15 @@ export const fetchPlayerData = async (playerTag: string): Promise<PlayerEquipmen
         // We accept equipment that is explicitly for 'home' or has no village specified.
         const heroEquipment = rawEquipmentList.filter((eq: any) => eq.village === 'home' || !eq.village);
         
-        return heroEquipment.map((eq: any) => ({
+        const equipment = heroEquipment.map((eq: any) => ({
             name: eq.name,
             level: eq.level,
         }));
+
+        return {
+            equipment,
+            name: data.name
+        };
 
     } catch (error) {
         console.error('Error fetching player data:', error);

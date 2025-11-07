@@ -28,6 +28,16 @@ export interface PlayerEquipmentData {
     level: number;
 }
 
+export interface ImportedPlayerData {
+    equipment: PlayerEquipmentData[];
+    name: string;
+}
+
+export interface BookmarkedPlayer {
+    tag: string;
+    name: string;
+}
+
 export interface FullPlayerData {
     equipment: PlayerEquipmentData[];
     ores: OreCosts;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { OreIncomeSettings, OreCosts } from '../types';
 import OreGainCalculator from './OreGainCalculator';
+import PlayerOresDisplay from './PlayerOresDisplay';
 
 interface IncomeSettingsProps {
     settings: OreIncomeSettings;
@@ -13,15 +14,20 @@ interface IncomeSettingsProps {
         traderGemsIncome: OreCosts;
         otherIncome: OreCosts;
     };
+    playerOres: OreCosts;
+    onOresChange: (oreType: keyof OreCosts, value: number) => void;
 }
 
-const IncomeSettings: React.FC<IncomeSettingsProps> = ({ settings, onSettingsChange, monthlyIncomeBreakdown }) => {
+const IncomeSettings: React.FC<IncomeSettingsProps> = ({ settings, onSettingsChange, monthlyIncomeBreakdown, playerOres, onOresChange }) => {
     return (
-        <OreGainCalculator 
-            settings={settings}
-            onSettingsChange={onSettingsChange}
-            monthlyIncomeBreakdown={monthlyIncomeBreakdown}
-         />
+        <>
+            <PlayerOresDisplay ores={playerOres} onOresChange={onOresChange} />
+            <OreGainCalculator 
+                settings={settings}
+                onSettingsChange={onSettingsChange}
+                monthlyIncomeBreakdown={monthlyIncomeBreakdown}
+            />
+        </>
     );
 };
 

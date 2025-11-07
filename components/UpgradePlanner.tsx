@@ -1,36 +1,44 @@
 import React, { useState } from 'react';
-import { EquipmentPlan, OreCosts } from '../types';
-import PlayerOresDisplay from './PlayerOresDisplay';
+import { EquipmentPlan, OreCosts, BookmarkedPlayer } from '../types';
 import PlayerTagInput from './PlayerTagInput';
 import EquipmentCard from './EquipmentCard';
 import TotalsDisplay from './TotalsDisplay';
+import BookmarkedPlayers from './BookmarkedPlayers';
 
 interface UpgradePlannerProps {
     plans: EquipmentPlan[];
-    playerOres: OreCosts;
     heroes: string[];
     onUpdatePlan: (id: number, updatedPlan: Partial<EquipmentPlan>) => void;
-    onOresChange: (oreType: keyof OreCosts, value: number) => void;
     onImportData: (playerTag: string) => void;
     isLoading: boolean;
     error: string | null;
     netCosts: OreCosts;
     timeToFarm: { days: number; weeks: number; months: number; years: number; };
     monthlyOreIncome: OreCosts;
+    playerTagInput: string;
+    onPlayerTagInputChange: (tag: string) => void;
+    currentPlayer: { tag: string; name: string } | null;
+    bookmarkedPlayers: BookmarkedPlayer[];
+    onBookmarkPlayer: () => void;
+    onRemoveBookmark: (tag: string) => void;
 }
 
 const UpgradePlanner: React.FC<UpgradePlannerProps> = ({
     plans,
-    playerOres,
     heroes,
     onUpdatePlan,
-    onOresChange,
     onImportData,
     isLoading,
     error,
     netCosts,
     timeToFarm,
-    monthlyOreIncome
+    monthlyOreIncome,
+    playerTagInput,
+    onPlayerTagInputChange,
+    currentPlayer,
+    bookmarkedPlayers,
+    onBookmarkPlayer,
+    onRemoveBookmark,
 }) => {
     const [openHero, setOpenHero] = useState<string | null>(null);
 
@@ -40,8 +48,22 @@ const UpgradePlanner: React.FC<UpgradePlannerProps> = ({
 
     return (
         <>
-            <PlayerOresDisplay ores={playerOres} onOresChange={onOresChange} />
-            <PlayerTagInput onImport={onImportData} isLoading={isLoading} error={error} />
+            <PlayerTagInput 
+                playerTag={playerTagInput}
+                onPlayerTagChange={onPlayerTagInputChange}
+                onImport={onImportData} 
+                isLoading={isLoading} 
+                error={error} 
+                currentPlayer={currentPlayer}
+                bookmarkedPlayers={bookmarkedPlayers}
+                onBookmark={onBookmarkPlayer}
+            />
+            <BookmarkedPlayers
+                players={bookmarkedPlayers}
+                onLoad={onImportData}
+                onRemove={onRemoveBookmark}
+                isLoading={isLoading}
+            />
             <main className="mt-8">
                 {heroes.map(hero => {
                     const heroPlans = plans.filter(p => p.equipment.hero === hero);

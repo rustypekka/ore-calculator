@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { EQUIPMENT_DATA, LEAGUES, WAR_TOWN_HALL_LOOT, TRADER_ORE_PURCHASE, TRADER_GEMS_ORE_PURCHASE } from './constants';
-import { EquipmentPlan, OreCosts, OreIncomeSettings } from './types';
+import { EquipmentPlan, OreCosts, OreIncomeSettings, BookmarkedPlayer } from './types';
 import { fetchPlayerData } from './services/clashOfClansService';
 import UpgradePlanner from './components/UpgradePlanner';
 import IncomeSettings from './components/IncomeSettings';
@@ -19,6 +19,9 @@ const App: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState('planner');
+    const [playerTagInput, setPlayerTagInput] = useState('');
+    const [bookmarkedPlayers, setBookmarkedPlayers] = useState<BookmarkedPlayer[]>([]);
+    const [currentPlayer, setCurrentPlayer] = useState<{ tag: string; name: string } | null>(null);
     
     const [oreIncomeSettings, setOreIncomeSettings] = useState<OreIncomeSettings>({
         leagueIndex: 33, // Default to Legend League in the new system
@@ -114,28 +117,64 @@ const App: React.FC = () => {
     const handleImportData = async (playerTag: string) => {
         setIsLoading(true);
         setError(null);
+        setPlayerTagInput(playerTag); // Update input field to show which player is loaded
         try {
-            const importedEquipment = await fetchPlayerData(playerTag);
+            const importedData = await fetchPlayerData(playerTag);
             
             const newPlans: EquipmentPlan[] = EQUIPMENT_DATA.map((equipment, index) => {
-                const importedData = importedEquipment.find(e => e.name === equipment.name);
+                const importedEquipment = importedData.equipment.find(e => e.name === equipment.name);
                 const currentPlan = plans.find(p => p.equipment.name === equipment.name);
 
                 return {
                     id: index + 1,
                     equipment,
-                    currentLevel: importedData ? importedData.level : 0,
+                    currentLevel: importedEquipment ? importedEquipment.level : 0,
                     // Preserve user's target level if it exists, otherwise default to max
                     targetLevel: currentPlan ? currentPlan.targetLevel : equipment.maxLevel
                 };
             });
             setPlans(newPlans);
+            setCurrentPlayer({ tag: playerTag, name: importedData.name });
         } catch (e) {
             setError(e instanceof Error ? e.message : 'An unknown error occurred.');
+            setCurrentPlayer(null);
         } finally {
             setIsLoading(false);
         }
     };
+    
+    const handlePlayerTagInputChange = (tag: string) => {
+        setPlayerTagInput(tag);
+        setCurrentPlayer(null);
+    };
+
+    const handleBookmarkPlayer = () => {
+        if (!currentPlayer || bookmarkedPlayers.some(p => p.tag === currentPlayer.tag)) {
+            return;
+        }
+        const newBookmarks = [...bookmarkedPlayers, { tag: currentPlayer.tag, name: currentPlayer.name }];
+        setBookmarkedPlayers(newBookmarks);
+        localStorage.setItem('bookmarkedPlayerTags', JSON.stringify(newBookmarks));
+    };
+
+    const handleRemoveBookmark = (tagToRemove: string) => {
+        const newBookmarks = bookmarkedPlayers.filter(p => p.tag !== tagToRemove);
+        setBookmarkedPlayers(newBookmarks);
+        localStorage.setItem('bookmarkedPlayerTags', JSON.stringify(newBookmarks));
+    };
+
+    useEffect(() => {
+        try {
+            const savedBookmarks = localStorage.getItem('bookmarkedPlayerTags');
+            if (savedBookmarks) {
+                setBookmarkedPlayers(JSON.parse(savedBookmarks));
+            }
+        } catch (e) {
+            console.error("Failed to parse bookmarks from localStorage", e);
+            localStorage.removeItem('bookmarkedPlayerTags');
+        }
+    }, []); // Runs only on mount
+
 
     const totalCosts = useMemo<OreCosts>(() => {
         return plans.reduce(
@@ -215,16 +254,20 @@ const App: React.FC = () => {
                 {activeTab === 'planner' && (
                     <UpgradePlanner 
                         plans={plans}
-                        playerOres={playerOres}
                         heroes={heroes}
                         onUpdatePlan={handleUpdatePlan}
-                        onOresChange={handleOresChange}
                         onImportData={handleImportData}
                         isLoading={isLoading}
                         error={error}
                         netCosts={netCosts}
                         timeToFarm={timeToFarm}
                         monthlyOreIncome={monthlyOreIncome}
+                        playerTagInput={playerTagInput}
+                        onPlayerTagInputChange={handlePlayerTagInputChange}
+                        currentPlayer={currentPlayer}
+                        bookmarkedPlayers={bookmarkedPlayers}
+                        onBookmarkPlayer={handleBookmarkPlayer}
+                        onRemoveBookmark={handleRemoveBookmark}
                     />
                 )}
 
@@ -233,6 +276,8 @@ const App: React.FC = () => {
                         settings={oreIncomeSettings}
                         onSettingsChange={setOreIncomeSettings}
                         monthlyIncomeBreakdown={monthlyOreIncomeBreakdown}
+                        playerOres={playerOres}
+                        onOresChange={handleOresChange}
                      />
                 )}
                 
