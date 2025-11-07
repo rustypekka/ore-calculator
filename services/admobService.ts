@@ -1,4 +1,5 @@
-import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdmobRewardItem } from '@capacitor-community/admob';
+// Fix: Corrected typo from AdmobRewardItem to AdMobRewardItem.
+import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdMobRewardItem } from '@capacitor-community/admob';
 
 // IMPORTANT: This is your production Rewarded Ad Unit ID.
 const REWARDED_AD_UNIT_ID_ANDROID = 'ca-app-pub-1783572368390458/5322302063';
@@ -8,13 +9,15 @@ export const initializeAdMob = async (): Promise<void> => {
     // AdMob is a native-only plugin, so it will only run on a device/emulator
     // FIX: Cast window.navigator to any to resolve TypeScript error for getCapacitor
     if (typeof window !== 'undefined' && window.navigator && typeof (window.navigator as any).getCapacitor === 'function') {
+        // Fix: Removed 'requestTrackingAuthorization' as it is not a valid property for initialize.
+        // It should be called separately if needed via AdMob.requestTrackingAuthorization().
         await AdMob.initialize({
-            requestTrackingAuthorization: true,
             testingDevices: [], // Add your test device IDs here for development
         });
     }
-  } catch (e) {
-    console.error("Error initializing AdMob", e);
+  // Fix: Renamed catch block variable from 'e' to 'error' to resolve "Cannot find name 'e'" error.
+  } catch (error) {
+    console.error("Error initializing AdMob", error);
   }
 };
 
@@ -38,34 +41,42 @@ export const showRewardedAd = (): Promise<{ rewarded: boolean; error?: string }>
       isTesting: false, // Set to false for production
     };
 
-    const removeAllListeners = () => {
-        AdMob.removeAllListeners();
-    };
+    // Fix: Refactored listener handling to correctly remove them, as AdMob.removeAllListeners() does not exist.
+    const setupListenersAndShowAd = async () => {
+      const rewardedListener = await AdMob.addListener(RewardAdPluginEvents.Rewarded, (reward: AdMobRewardItem) => {
+        console.log('Reward received:', reward);
+        removeListeners();
+        resolve({ rewarded: true });
+      });
 
-    AdMob.addListener(RewardAdPluginEvents.Rewarded, (reward: AdmobRewardItem) => {
-      console.log('Reward received:', reward);
-      removeAllListeners();
-      resolve({ rewarded: true });
-    });
+      const dismissedListener = await AdMob.addListener(RewardAdPluginEvents.Dismissed, () => {
+        console.log('Rewarded ad dismissed by user.');
+        removeListeners();
+        resolve({ rewarded: false, error: 'ad_dismissed' });
+      });
 
-    AdMob.addListener(RewardAdPluginEvents.Dismissed, () => {
-      console.log('Rewarded ad dismissed by user.');
-      removeAllListeners();
-      resolve({ rewarded: false, error: 'ad_dismissed' });
-    });
-
-    AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error) => {
+      const failedListener = await AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error) => {
         console.error('Failed to load rewarded ad', error);
-        removeAllListeners();
+        removeListeners();
         resolve({ rewarded: false, error: 'ad_failed_to_load' });
     });
 
-    AdMob.prepareRewardVideoAd(options)
-      .then(() => AdMob.showRewardVideoAd())
-      .catch((e) => {
-        console.error("Error preparing or showing ad:", e);
-        removeAllListeners();
+      const removeListeners = () => {
+        rewardedListener.remove();
+        dismissedListener.remove();
+        failedListener.remove();
+      };
+
+      try {
+        await AdMob.prepareRewardVideoAd(options);
+        await AdMob.showRewardVideoAd();
+      } catch (error) {
+        console.error("Error preparing or showing ad:", error);
+        removeListeners();
         resolve({ rewarded: false, error: 'ad_prepare_or_show_failed' });
-      });
+      }
+    };
+
+    setupListenersAndShowAd();
   });
 };

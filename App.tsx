@@ -25,7 +25,7 @@ const App: React.FC = () => {
     const [currentPlayer, setCurrentPlayer] = useState<{ tag: string; name: string } | null>(null);
     
     const [oreIncomeSettings, setOreIncomeSettings] = useState<OreIncomeSettings>({
-        leagueIndex: 33, // Default to Legend League in the new system
+        leagueIndex: 33, // Default to Legend League
         warTownHall: 17,
         warAttacksPerWeek: 7,
         warWinRatio: 100,
