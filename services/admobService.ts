@@ -2,7 +2,7 @@
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdMobRewardItem } from '@capacitor-community/admob';
 
 // IMPORTANT: This is your production Rewarded Ad Unit ID.
-const REWARDED_AD_UNIT_ID_ANDROID = 'ca-app-pub-1783572368390458/5322302063';
+const REWARDED_AD_UNIT_ID_ANDROID = 'ca-app-pub-1783572368390458/8742205079';
 
 export const initializeAdMob = async (): Promise<void> => {
   try {
